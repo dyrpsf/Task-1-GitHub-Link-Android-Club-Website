@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Android Club VIT Bhopal — Showcase</title>
+  <meta name="description" content="Showcase website for Android Club VIT Bhopal — projects, events, and contact." />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================
+       Android Club VITB — Single File
+       Clean, responsive, dark UI with accent green
+       ========================= */
+    :root{
+      --bg-0:#090d12;
+      --bg-1:#0e141b;
+      --bg-2:#111923;
+      --glass:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.09);
+      --text:#e6edf3;
+      --muted:#9fb0c3;
+      --accent:#3ddc84;      /* Android green */
+      --accent-2:#f59e0b;    /* Warm amber accent */
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Outfit, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      color:var(--text); background:
+        radial-gradient(1200px 600px at -10% -10%, #123 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, #13231a 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+      overflow-x:hidden;
+    }
+
+    /* Layout helpers */
+    .container{width:min(1140px, 92vw); margin-inline:auto}
+    section{padding: 80px 0}
+    h1,h2,h3{line-height:1.12; margin:0 0 12px}
+    p{margin:0 0 14px; color:var(--muted)}
+    a{color:inherit; text-decoration:none}
+    .muted{color:var(--muted)}
+    .tag{display:inline-block; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; color:#cfeadd; background:rgba(61,220,132,.08); border:1px solid rgba(61,220,132,.25); padding:6px 10px; border-radius:999px}
+
+    /* Header/Nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(180deg, rgba(9,13,18,.8), rgba(9,13,18,.35) 70%, transparent);
+      backdrop-filter:saturate(120%) blur(10px);
+      border-bottom:1px solid var(--stroke);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+    }
+    .logo{
+      width:28px;height:28px;border-radius:7px;
+      background:
+        radial-gradient(10px 10px at 70% 35%, #fff8, transparent 60%),
+        linear-gradient(135deg, #1f8d55, #3ddc84 60%, #98ffcd);
+      box-shadow:0 6px 18px rgba(61,220,132,.35);
+    }
+    .nav-links{
+      display:flex; align-items:center; gap:18px;
+    }
+    .nav-links a{opacity:.85}
+    .nav-links a:hover{opacity:1}
+    .btn{
+      --bg:var(--accent); --fg:#032911;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      background:var(--bg); color:var(--fg);
+      padding:10px 16px; border-radius:10px; font-weight:600; border:1px solid #2ac572; box-shadow:0 6px 18px rgba(61,220,132,.25); cursor:pointer;
+    }
+    .btn.secondary{
+      --bg:transparent; --fg:var(--text);
+      border:1px solid var(--stroke); box-shadow:none; background:var(--glass)
+    }
+    /* Mobile menu */
+    .hamburger{display:none; gap:8px; align-items:center; padding:8px 10px; border-radius:10px; border:1px solid var(--stroke); background:var(--glass); cursor:pointer}
+    .hamburger span{display:block;width:20px;height:2px;background:#d7e2ee;border-radius:2px;position:relative}
+    .hamburger span::before,.hamburger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:inherit;border-radius:2px}
+    .hamburger span::before{top:-6px}.hamburger span::after{top:6px}
+
+    /* Hero */
+    .hero{
+      padding: 86px 0 64px; position:relative; overflow:hidden;
+    }
+    .hero .grid{
+      display:grid; grid-template-columns: 1.2fr 1fr; gap:40px; align-items:center;
+    }
+    .hero h1{font-size: clamp(2rem, 4vw + .6rem, 3.4rem)}
+    .hero p{font-size: clamp(1rem, 1.1vw + .6rem, 1.12rem)}
+    .hero-visual{
+      height: 310px; border-radius: var(--radius);
+      background:
+        radial-gradient(180px 120px at 75% 20%, rgba(61,220,132,.35), transparent 70%),
+        linear-gradient(180deg, #0f1b13, #0d0f14 50%),
+        linear-gradient(135deg, rgba(61,220,132,.12), rgba(245,158,11,.12));
+      border:1px solid var(--stroke);
+      position:relative; overflow:hidden; box-shadow: var(--shadow);
+    }
+    .orbit{
+      --s:140px; --d:16s;
+      position:absolute; inset:0; display:grid; place-items:center;
+      filter: drop-shadow(0 6px 18px rgba(61,220,132,.25));
+    }
+    .orbit i{
+      position:absolute; width:var(--s); height:var(--s); border-radius:50%; border:1px dashed rgba(61,220,132,.35);
+      animation:spin var(--d) linear infinite;
+    }
+    .orbit b{
+      position:absolute; width:20px;height:20px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff, #3ddc84 50%, #0d3 70%, transparent 75%);
+      transform:translate(70px,0);
+      animation:counter var(--d) linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes counter{to{transform:rotate(-360deg) translate(70px)}}
+
+    /* About */
+    .about-grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:32px}
+    .card{
+      background:var(--glass); border:1px solid var(--stroke); border-radius: var(--radius);
+      padding:20px; box-shadow: var(--shadow)
+    }
+    .stats{display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:12px}
+    .stat{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--stroke); border-radius:12px; padding:14px; text-align:center}
+    .stat b{display:block; font-size:1.4rem}
+    .list{display:grid; gap:8px; padding-left:0; list-style:none}
+    .list li{display:flex; gap:10px; align-items:flex-start}
+    .list li::before{content:"▹"; color:var(--accent)}
+
+    /* Projects */
+    .filters{display:flex; flex-wrap:wrap; gap:10px; margin: 10px 0 18px}
+    .chip{
+      border:1px solid var(--stroke); background:rgba(255,255,255,.04); color:#d7e2ee;
+      padding:8px 12px; border-radius:999px; cursor:pointer; user-select:none; font-weight:500; transition:.2s;
+    }
+    .chip.active,.chip:hover{border-color:rgba(61,220,132,.5); background:rgba(61,220,132,.1)}
+    .projects{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:18px;
+    }
+    .project{
+      position:relative; overflow:hidden; border-radius:14px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .project .thumb{
+      aspect-ratio: 16/10; background:
+        radial-gradient(200px 160px at 80% 0%, rgba(61,220,132,.35), transparent 60%),
+        linear-gradient(135deg, #0f1b13, #0b1016);
+      display:grid; place-items:center; color:#bfead0; font-weight:700; letter-spacing:.5px;
+    }
+    .project .body{padding:14px}
+    .project .links{display:flex; gap:10px; margin-top:8px}
+    .link{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--stroke); color:#dfe7f2; background:rgba(255,255,255,.03)
+    }
+    .project:hover{transform:translateY(-3px); transition:.18s ease; box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .badge{display:inline-block; padding:4px 8px; font-size:.8rem; border-radius:999px; border:1px solid rgba(245,158,11,.4); color:#ffd89a; background:rgba(245,158,11,.08)}
+
+    /* Events */
+    .timeline{display:grid; gap:16px}
+    .event{
+      display:grid; grid-template-columns: 120px 1fr; gap:16px; align-items:start;
+      border:1px solid var(--stroke); background:var(--glass); border-radius:14px; padding:14px;
+    }
+    .event .date{font-weight:700; color:#c8d8e9}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(61,220,132,.4); color:#cfeadd; background:rgba(61,220,132,.08); font-size:.85rem}
+
+    /* Contact */
+    form{display:grid; gap:12px}
+    .field{display:grid; gap:6px}
+    .field input,.field textarea{
+      padding:12px 14px; border-radius:10px; border:1px solid var(--stroke); background:rgba(255,255,255,.03); color:var(--text)
+    }
+    .row{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+
+    /* Footer */
+    footer{padding:28px 0 40px; border-top:1px solid var(--stroke); background:linear-gradient(180deg, transparent, rgba(255,255,255,.02))}
+    .socials{display:flex; gap:10px; flex-wrap:wrap}
+    .socials a{border:1px solid var(--stroke); background:rgba(255,255,255,.03); padding:8px 12px; border-radius:999px}
+
+    /* Utilities */
+    .center{display:flex; align-items:center; gap:12px}
+    .spacer{height:10px}
+    .title{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px
+    }
+    .title h2{font-size: clamp(1.4rem, 1.1vw + 1rem, 2rem)}
+    .reveal{opacity:0; transform:translateY(16px); transition:.5s ease}
+    .reveal.visible{opacity:1; transform:none}
+    .sticky-cta{display:none}
+
+    /* Back-to-top */
+    #toTop{
+      position:fixed; right:18px; bottom:18px; z-index:49; opacity:0; pointer-events:none; transform:translateY(10px);
+      transition:.25s ease; box-shadow:0 10px 18px rgba(0,0,0,.35);
+    }
+    #toTop.show{opacity:1; transform:none; pointer-events:auto}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero .grid{grid-template-columns: 1fr}
+      .about-grid{grid-template-columns:1fr}
+      .projects{grid-template-columns: repeat(2, 1fr)}
+      .event{grid-template-columns: 1fr}
+      .row{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .sticky-cta{display:inline-flex}
+      section{padding:64px 0}
+    }
+    @media (max-width: 620px){
+      .projects{grid-template-columns: 1fr}
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .reveal{transition:none}
+      .orbit i, .orbit b{animation:none}
+      html{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Android Club VITB</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#welcome">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+        <a class="btn" href="#contact">Join Us</a>
+      </nav>
+
+      <button id="menu" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="mobileNav" hidden>
+      <div class="container" style="padding:10px 0 16px;">
+        <div style="display:grid; gap:10px">
+          <a class="btn secondary" href="#welcome">Home</a>
+          <a class="btn secondary" href="#about">About</a>
+          <a class="btn secondary" href="#projects">Projects</a>
+          <a class="btn secondary" href="#events">Events</a>
+          <div class="center" style="justify-content:space-between">
+            <a class="btn" href="#contact">Join Us</a>
+            <a class="sticky-cta btn secondary" href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Welcome / Hero -->
+    <section id="welcome" class="hero">
+      <div class="container grid">
+        <div class="reveal">
+          <span class="tag">Welcome to Android Club</span>
+          <h1>Build. Learn. Ship.<br/>With Android Club VIT Bhopal</h1>
+          <p>We’re a community of builders exploring Android, Kotlin/Compose, design, and everything around modern app development. Join us for workshops, code labs, projects, and hackathons.</p>
+          <div class="center" style="margin-top:14px">
+            <a class="btn" href="#projects">Explore Projects</a>
+            <a class="btn secondary" href="#events">Upcoming Events</a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="orbit">
+            <i></i><b></b>
+          </div>
+          <div class="orbit" style="--s:220px; --d:22s">
+            <i style="border-style:solid;border-color:rgba(245,158,11,.35)"></i>
+            <b style="background:radial-gradient(circle at 30% 30%, #fff, #f59e0b 50%, #a66b00 70%, transparent 75%); transform:translate(110px,0)"></b>
+          </div>
+          <div style="position:absolute; inset:auto 12px 12px 12px; display:grid; gap:8px;">
+            <div class="badge">Kotlin • Compose • Firebase</div>
+            <div class="badge" style="border-color:rgba(61,220,132,.35); color:#cfeadd; background:rgba(61,220,132,.06)">Open Source First</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container">
+        <div class="title reveal">
+          <h2>About Us</h2>
+          <span class="muted">What we do at the club</span>
+        </div>
+
+        <div class="about-grid">
+          <div class="card reveal">
+            <h3>Our Mission</h3>
+            <p>Empower students to craft delightful Android experiences through peer learning, mentorship, and real-world projects. We focus on fundamentals, clean architecture, design systems, and shipping to users.</p>
+
+            <div class="stats">
+              <div class="stat"><b>120+</b><span class="muted">Active Members</span></div>
+              <div class="stat"><b>25+</b><span class="muted">Projects</span></div>
+              <div class="stat"><b>15</b><span class="muted">Workshops/Yr</span></div>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <h3>What you’ll learn</h3>
+            <ul class="list">
+              <li>Modern Android with Kotlin and Jetpack Compose</li>
+              <li>UI/UX fundamentals and motion design</li>
+              <li>Clean architecture, testing, and CI/CD</li>
+              <li>Publishing to Play Store and open-source collaboration</li>
+              <li>Cloud backends with Firebase and REST APIs</li>
+            </ul>
+            <div class="spacer"></div>
+            <a class="btn" href="#contact">Become a Member</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="container">
+        <div class="title reveal">
+          <h2>Projects Showcase</h2>
+          <span class="muted">A few things our members built</span>
+        </div>
+
+        <div class="filters reveal" role="tablist" aria-label="Project filters">
+          <span class="chip active" data-filter="all" role="tab" aria-selected="true">All</span>
+          <span class="chip" data-filter="android" role="tab" aria-selected="false">Android</span>
+          <span class="chip" data-filter="compose" role="tab" aria-selected="false">Compose</span>
+          <span class="chip" data-filter="uiux" role="tab" aria-selected="false">UI/UX</span>
+          <span class="chip" data-filter="ml" role="tab" aria-selected="false">ML</span>
+        </div>
+
+        <div class="projects">
+          <!-- Project Card -->
+          <article class="project reveal" data-cat="android,compose">
+            <div class="thumb">Taskly</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">Taskly — Todo App</h3>
+                <span class="badge">Compose</span>
+              </div>
+              <p class="muted">A clean architecture todo app with offline-first sync, Hilt, and Material 3.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="link" href="#" onclick="alert('Demo link placeholder');return false;">Live Demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-cat="android,ml">
+            <div class="thumb">PlantID</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">PlantID — ML Kit</h3>
+                <span class="badge">Android</span>
+              </div>
+              <p class="muted">Identify plants offline using TensorFlow Lite, CameraX, and Compose.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="link" href="#" onclick="alert('Demo link placeholder');return false;">Live Demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-cat="uiux">
+            <div class="thumb">Pocket UI Kit</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">Pocket UI Kit</h3>
+                <span class="badge">UI/UX</span>
+              </div>
+              <p class="muted">A design system starter for Android & web — components, tokens, and motion.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">Docs</a>
+                <a class="link" href="#" onclick="alert('Figma link placeholder');return false;">Figma</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-cat="android,compose">
+            <div class="thumb">CinemaNow</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">CinemaNow</h3>
+                <span class="badge">Compose</span>
+              </div>
+              <p class="muted">TMDB client with Paging3, Coil, and a delightful glassmorphism UI.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="link" href="#" onclick="alert('Demo link placeholder');return false;">Demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-cat="android">
+            <div class="thumb">VITB Bus</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">VITB Bus Tracker</h3>
+                <span class="badge">Android</span>
+              </div>
+              <p class="muted">Realtime bus locations with Maps SDK and Firebase — built for campus.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="link" href="#" onclick="alert('Play Store link placeholder');return false;">Play</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-cat="ml,uiux">
+            <div class="thumb">MoodMate</div>
+            <div class="body">
+              <div class="center" style="justify-content:space-between">
+                <h3 style="margin:0">MoodMate</h3>
+                <span class="badge">ML + UI</span>
+              </div>
+              <p class="muted">On-device sentiment insights and calming UI built for accessibility.</p>
+              <div class="links">
+                <a class="link" href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="link" href="#" onclick="alert('Case study placeholder');return false;">Case Study</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events -->
+    <section id="events">
+      <div class="container">
+        <div class="title reveal">
+          <h2>Events</h2>
+          <span class="muted">Upcoming and recent happenings</span>
+        </div>
+
+        <div class="timeline">
+          <div class="event reveal">
+            <div>
+              <div class="date">Dec 2, 2025</div>
+              <div class="pill" style="margin-top:6px">Upcoming</div>
+            </div>
+            <div>
+              <h3 style="margin:0 0 6px">Compose Camp: From XML to Jetpack</h3>
+              <p>Hands-on lab covering state, layouts, theming, and navigation. Bring your laptop with Android Studio.</p>
+              <div class="center" style="margin-top:8px; gap:10px">
+                <a class="btn" href="#contact">Reserve Spot</a>
+                <a class="btn secondary" href="#" onclick="alert('Event details placeholder');return false;">Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="event reveal">
+            <div>
+              <div class="date">Nov 10, 2025</div>
+              <div class="pill" style="border-color:rgba(245,158,11,.4); background:rgba(245,158,11,.08); color:#ffd89a">Past</div>
+            </div>
+            <div>
+              <h3 style="margin:0 0 6px">Firebase + App Quality Bootcamp</h3>
+              <p>We explored Crashlytics, Performance, Remote Config, and Test Lab with practical exercises.</p>
+              <div class="center" style="gap:10px">
+                <a class="btn secondary" href="#" onclick="alert('Slides placeholder');return false;">Slides</a>
+                <a class="btn secondary" href="#" onclick="alert('Project repo placeholder');return false;">Sample App</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="event reveal">
+            <div>
+              <div class="date">Oct 5, 2025</div>
+              <div class="pill" style="border-color:rgba(245,158,11,.4); background:rgba(245,158,11,.08); color:#ffd89a">Past</div>
+            </div>
+            <div>
+              <h3 style="margin:0 0 6px">Intro to Android Club + Ideathon</h3>
+              <p>Kickoff for new members with lightning talks and a rapid ideation challenge — best ideas got mentorship.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container">
+        <div class="title reveal">
+          <h2>Contact & Join Us</h2>
+          <span class="muted">We’d love to hear from you</span>
+        </div>
+
+        <div class="about-grid">
+          <div class="card reveal">
+            <h3>Send a message</h3>
+            <form id="contactForm" novalidate>
+              <div class="row">
+                <div class="field">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" placeholder="Your name" required />
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="you@vitbhopal.ac.in" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" placeholder="Tell us about you and why you want to join…" required></textarea>
+              </div>
+              <div class="center" style="justify-content:space-between">
+                <button class="btn" type="submit">Send Message</button>
+                <a class="btn secondary" href="mailto:androidclub@vitbhopal.ac.in">Email Instead</a>
+              </div>
+            </form>
+            <div id="toast" role="status" aria-live="polite" style="display:none; margin-top:12px" class="pill">Message queued — we’ll get back to you!</div>
+          </div>
+
+          <div class="card reveal">
+            <h3>Find us online</h3>
+            <p class="muted">Follow for updates, calls for speakers, and release notes.</p>
+            <div class="spacer"></div>
+            <div class="socials">
+              <a href="#" onclick="alert('Instagram placeholder');return false;">Instagram</a>
+              <a href="#" onclick="alert('X/Twitter placeholder');return false;">X</a>
+              <a href="#" onclick="alert('LinkedIn placeholder');return false;">LinkedIn</a>
+              <a href="#" onclick="alert('GitHub org placeholder');return false;">GitHub</a>
+              <a href="https://androidclubvitb.tech/" target="_blank" rel="noopener">Website</a>
+            </div>
+            <div class="spacer"></div>
+            <p class="muted">Campus: VIT Bhopal • Android Club Lab</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container center" style="justify-content:space-between; flex-wrap:wrap">
+      <p class="muted">© <span id="year"></span> Android Club VIT Bhopal. Built with ❤️ for the Club Showcase challenge.</p>
+      <div class="socials">
+        <a href="#welcome">Back to Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <a id="toTop" class="btn" href="#welcome" aria-label="Back to top">↑</a>
+
+  <script>
+    // =========================
+    // Small, dependency-free JS
+    // =========================
+    const $ = (q, ctx=document) => ctx.querySelector(q);
+    const $$ = (q, ctx=document) => Array.from(ctx.querySelectorAll(q));
+
+    // Year in footer
+    $('#year').textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const menuBtn = $('#menu');
+    const mobile = $('#mobileNav');
+    menuBtn?.addEventListener('click', () => {
+      const open = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!open));
+      if(open){ mobile.setAttribute('hidden', ''); } else { mobile.removeAttribute('hidden'); }
+    });
+    // Close mobile menu on nav click
+    $$('#mobileNav a').forEach(a => a.addEventListener('click', () => {
+      mobile.setAttribute('hidden',''); menuBtn.setAttribute('aria-expanded','false');
+    }));
+
+    // Reveal on scroll
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!prefersReduced){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+      }, {threshold:.18});
+      $$('.reveal').forEach(el => io.observe(el));
+    }else{
+      $$('.reveal').forEach(el => el.classList.add('visible'));
+    }
+
+    // Project filters
+    const chips = $$('.chip');
+    const cards = $$('.project');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => { c.classList.remove('active'); c.setAttribute('aria-selected','false'); });
+        chip.classList.add('active'); chip.setAttribute('aria-selected','true');
+        const f = chip.dataset.filter;
+        cards.forEach(card => {
+          const cats = (card.dataset.cat || '').split(',').map(s => s.trim());
+          const show = f === 'all' || cats.includes(f);
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    // Back to top visibility
+    const toTop = $('#toTop');
+    const onScroll = () => {
+      const scrolled = window.scrollY || document.documentElement.scrollTop;
+      if(scrolled > 350) toTop.classList.add('show'); else toTop.classList.remove('show');
+    };
+    document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    // Contact form (demo)
+    const form = $('#contactForm');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const toast = $('#toast');
+      // Simple client validation
+      if(!form.name.value || !form.email.value || !form.message.value){
+        alert('Please fill all fields.');
+        return;
+      }
+      // Simulate async submit
+      toast.style.display = 'inline-block';
+      setTimeout(() => {
+        alert('Thanks! Your message has been recorded (demo).');
+        form.reset();
+        toast.style.display = 'none';
+      }, 700);
+    });
+  </script>
+</body>
+</html>
